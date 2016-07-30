@@ -60,7 +60,10 @@ window.onload = function() {
 
     Terrain.fromImage('images/terrain.png').then(function(terrain) {
 
-        var texture = THREE.ImageUtils.loadTexture('images/texture.png');
+        var loader = new THREE.TextureLoader();
+
+        var texture = loader.load('images/texture.png');
+
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(terrain.width / 100, terrain.height / 100);
 
