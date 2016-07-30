@@ -36,7 +36,7 @@ class Terrain {
                 canvas.height = height;
                 let ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0);
-                var pixels = ctx.getImageData(0, 0, width, height).data;
+                let pixels = ctx.getImageData(0, 0, width, height).data;
                 let terrain = new Terrain(width, height);
                 for (let i = 0; i < width * height; i++) {
                     terrain.array[i * 3 + 1] = pixels[i * 4] / 256;
