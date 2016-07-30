@@ -14,10 +14,11 @@ class Terrain {
         this.mesh = null;
     }
 
-    build() {
+    build(texture) {
         this.geometry.computeBoundingSphere();
         this.geometry.computeVertexNormals();
         this.material = new THREE.MeshLambertMaterial({
+            map: texture
         });
         this.mesh = new THREE.Mesh(this.geometry, this.material);
         this.mesh.position.x = this.width / 2;

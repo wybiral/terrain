@@ -59,7 +59,12 @@ window.onload = function() {
     app.scene.add(light);
 
     Terrain.fromImage('images/terrain.png').then(function(terrain) {
-        app.scene.add(terrain.build());
+
+        var texture = THREE.ImageUtils.loadTexture('images/texture.png');
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(terrain.width / 100, terrain.height / 100);
+
+        app.scene.add(terrain.build(texture));
 
         // Scale terrain peaks
         terrain.mesh.scale.y = 50.0;
