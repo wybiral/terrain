@@ -37,6 +37,8 @@ class App {
     }
 
     update() {
+        // Just spin in circles for now
+        this.camera.rotation.y += 0.001;
     }
 
     render() {
@@ -47,7 +49,27 @@ class App {
     }
 }
 
+
 window.onload = function() {
     let app = new App();
+
+    // Let there be light
+    let light = new THREE.DirectionalLight(0xe0e0e0);
+    light.position.set(1, 1, 0).normalize();
+    app.scene.add(light);
+
+    let terrain = new Terrain(100, 100);
+    // Fill terrain with noise
+    for (var i = 0; i < terrain.array.length / 3; i++) {
+        terrain.array[i * 3 + 1] = Math.random() * 2;
+    }
+    app.scene.add(terrain.build());
+
+    // Position camera
+    let camera = app.camera;
+    camera.position.x = terrain.width / 2;
+    camera.position.y = 3;
+    camera.position.z = terrain.height / 2;
+
     app.start();
 };
