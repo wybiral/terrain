@@ -12,6 +12,17 @@ class App {
         this.renderer.setPixelRatio(pixelRatio);
         this.renderer.setSize(width, height);
         document.body.appendChild(this.renderer.domElement);
+        // Catch resize events
+        window.onresize = (evt) => {
+            this.resize(window.innerWidth, window.innerHeight);
+        };
+    }
+
+    /* Resize viewport */
+    resize(width, height) {
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(width, height);
     }
 
     /* Start the main loop */
