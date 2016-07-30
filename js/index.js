@@ -37,8 +37,8 @@ class App {
     }
 
     update() {
-        // Just spin in circles for now
-        this.camera.rotation.y += 0.001;
+        // Dispatch update event for listeners
+        window.dispatchEvent(new CustomEvent('app-update', {}));
     }
 
     render() {
@@ -74,9 +74,22 @@ window.onload = function() {
 
         // Position camera
         let camera = app.camera;
+
+        // Start in middle of terrain
         camera.position.x = terrain.width / 2;
-        camera.position.y = 50;
         camera.position.z = terrain.height / 2;
+
+        window.addEventListener('app-update', function(evt) {
+            let nextZ = camera.position.z - 0.2;
+            if (nextZ < terrain.height) {
+                // Don't update if we go outside of terrain
+                camera.position.z = nextZ;
+            }
+            let x = camera.position.x;
+            let z = camera.position.z;
+            let scale = terrain.mesh.scale.y;
+            camera.position.y = 5 + terrain.getHeightAt(x, z) * scale;
+        });
 
         app.start();
     }).catch(function(e) {
