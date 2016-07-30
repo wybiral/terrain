@@ -24,4 +24,28 @@ class Terrain {
         this.mesh.position.z = this.height / 2;
         return this.mesh;
     }
+
+    static fromImage(src) {
+        return new Promise(function(resolve, reject) {
+            let img = new Image();
+            img.onload = function() {
+                let width = img.width;
+                let height = img.height;
+                let canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                let ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                var pixels = ctx.getImageData(0, 0, width, height).data;
+                let terrain = new Terrain(width, height);
+                for (let i = 0; i < width * height; i++) {
+                    terrain.array[i * 3 + 1] = pixels[i * 4] / 256;
+                }
+                resolve(terrain);
+            };
+            img.onabort = reject;
+            img.onerror = reject;
+            img.src = src;
+        });
+    }
 }
