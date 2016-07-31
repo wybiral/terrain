@@ -58,7 +58,11 @@ window.onload = function() {
     light.position.set(1, 1, 0).normalize();
     app.scene.add(light);
 
+    let controls = new FirstPersonControls(app);
+
     Terrain.fromImage('images/terrain.png').then(function(terrain) {
+
+        app.terrain = terrain;
 
         var loader = new THREE.TextureLoader();
 
@@ -72,23 +76,12 @@ window.onload = function() {
         // Scale terrain peaks
         terrain.mesh.scale.y = 50.0;
 
-        // Position camera
-        let camera = app.camera;
-
         // Start in middle of terrain
-        camera.position.x = terrain.width / 2;
-        camera.position.z = terrain.height / 2;
+        controls.position.x = terrain.width / 2;
+        controls.position.z = terrain.height / 2;
 
         window.addEventListener('app-update', function(evt) {
-            let nextZ = camera.position.z - 0.2;
-            if (nextZ < terrain.height) {
-                // Don't update if we go outside of terrain
-                camera.position.z = nextZ;
-            }
-            let x = camera.position.x;
-            let z = camera.position.z;
-            let scale = terrain.mesh.scale.y;
-            camera.position.y = 5 + terrain.getHeightAt(x, z) * scale;
+            controls.update();
         });
 
         app.start();
