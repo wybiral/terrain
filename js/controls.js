@@ -10,6 +10,7 @@ class FirstPersonControls {
         this.app = app;
         this.position = new THREE.Vector3(0, 0, 0);
         this.rotation = new THREE.Vector3(0, 0, 0);
+        this.velocity = new THREE.Vector3(0, 0, 0);
         this.keystate = {};
         this.bindEvents();
     }
@@ -26,7 +27,7 @@ class FirstPersonControls {
 
         // Update rotation from mouse motion
         document.body.addEventListener('mousemove', (evt) => {
-            let sensitivity = 0.005
+            let sensitivity = 0.002
             this.rotation.x -= evt.movementY * sensitivity;
             this.rotation.y -= evt.movementX * sensitivity;
             // Constrain viewing angle
@@ -49,7 +50,7 @@ class FirstPersonControls {
     }
 
     update(delta) {
-        let speed = delta * 20.0;
+        let speed = delta * 2.0;
         let motion = new THREE.Vector3(0, 0, 0);
         if (this.keystate[K_FORWARD]) {
             motion.z -= speed;
@@ -65,9 +66,12 @@ class FirstPersonControls {
         }
         let rotation = new THREE.Matrix4().makeRotationY(this.rotation.y);
         motion.applyMatrix4(rotation);
-        motion.add(this.position);
-        let x = motion.x;
-        let z = motion.z;
+        this.velocity.add(motion);
+        let nextPosition = this.position.clone();
+        nextPosition.add(this.velocity);
+        this.velocity.multiplyScalar(0.95);
+        let x = nextPosition.x;
+        let z = nextPosition.z;
         let terrain = this.app.terrain;
         // Constrain position to terrain bounds
         if (x < 0 || x >= terrain.width - 1) {
