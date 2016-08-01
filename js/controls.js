@@ -48,8 +48,8 @@ class FirstPersonControls {
 
     }
 
-    update() {
-        let speed = 0.5;
+    update(delta) {
+        let speed = delta * 20.0;
         let motion = new THREE.Vector3(0, 0, 0);
         if (this.keystate[K_FORWARD]) {
             motion.z -= speed;

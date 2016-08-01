@@ -32,13 +32,23 @@ class App {
 
     loop() {
         requestAnimationFrame(() => this.loop());
-        this.update();
+        let time = new Date().getTime() / 1000;
+        let delta = 0.0;
+        if (typeof this.lastUpdate !== 'undefined') {
+            delta = time - this.lastUpdate;
+        }
+        this.update(delta);
+        this.lastUpdate = time;
         this.render();
     }
 
-    update() {
+    update(delta) {
         // Dispatch update event for listeners
-        window.dispatchEvent(new CustomEvent('app-update', {}));
+        window.dispatchEvent(new CustomEvent('app-update', {
+            detail: {
+                delta: delta
+            }
+        }));
     }
 
     render() {
@@ -81,7 +91,7 @@ window.onload = function() {
         controls.position.z = terrain.height / 2;
 
         window.addEventListener('app-update', function(evt) {
-            controls.update();
+            controls.update(evt.detail.delta);
         });
 
         app.start();
