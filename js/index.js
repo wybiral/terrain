@@ -68,6 +68,10 @@ window.onload = function() {
     light.position.set(1, 1, 0).normalize();
     app.scene.add(light);
 
+    let fog = new THREE.FogExp2(0x998877, 0.005);
+    app.scene.fog = fog;
+    app.renderer.setClearColor(fog.color, 1);
+
     let controls = new FirstPersonControls(app);
 
     Terrain.fromImage('images/terrain.png').then(function(terrain) {
