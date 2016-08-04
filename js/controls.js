@@ -4,6 +4,11 @@ const K_BACKWARD = 'S'.charCodeAt(0);
 const K_STRAFE_LEFT = 'A'.charCodeAt(0);
 const K_STRAFE_RIGHT = 'D'.charCodeAt(0);
 
+const K_UP = 38;
+const K_DOWN = 40;
+const K_LEFT = 37;
+const K_RIGHT = 39;
+
 class FirstPersonControls {
 
     constructor(app) {
@@ -63,6 +68,18 @@ class FirstPersonControls {
         }
         if (this.keystate[K_STRAFE_RIGHT]) {
             motion.x += speed;
+        }
+        if (this.keystate[K_UP]) {
+            this.rotation.x += speed * 0.5;
+        }
+        if (this.keystate[K_DOWN]) {
+            this.rotation.x -= speed * 0.5;
+        }
+        if (this.keystate[K_LEFT]) {
+            this.rotation.y += speed * 0.5;
+        }
+        if (this.keystate[K_RIGHT]) {
+            this.rotation.y -= speed * 0.5;
         }
         let rotation = new THREE.Matrix4().makeRotationY(this.rotation.y);
         motion.applyMatrix4(rotation);
