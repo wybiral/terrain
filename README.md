@@ -9,3 +9,4 @@ Creating a 3d terrain in WebGL, with each step being made as a Github release.
 - Step 4: [Texture terrain](https://github.com/wybiral/terrain/releases/tag/0.4)
 - Step 5: [Add "collision"](https://github.com/wybiral/terrain/releases/tag/0.5)
 - Step 6: [First person controls](https://github.com/wybiral/terrain/releases/tag/0.6)
+- Step 7: [Add fog](https://github.com/wybiral/terrain/releases/tag/0.7)
